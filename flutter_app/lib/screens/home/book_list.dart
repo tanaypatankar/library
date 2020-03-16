@@ -5,6 +5,8 @@ import 'package:flutter_app/screens/home/book_tile.dart';
 import 'package:flutter_app/models/users.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_app/shared/loading.dart';
+
+import 'package:html/parser.dart';
 //import 'package:flutter_app/widgets/provider_widget.dart';
 import 'package:flutter_app/services/auth.dart';
 
@@ -42,5 +44,11 @@ class _BookListState extends State<BookList> {
     String uid = user.uid;
     print("UID is : ");
     print(user.uid);
-    yield* Firestore.instance.collection('Users').document(uid).collection('books').snapshots();
+    DocumentReference doc = Firestore.instance.collection('UserList').document(uid);
+    DocumentSnapshot userRef = await doc.get();
+    final String pictid = userRef.data['pictid'];
+
+    yield* Firestore.instance.collection('Users').document(pictid).collection('books').snapshots();
   }
+
+

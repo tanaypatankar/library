@@ -8,17 +8,18 @@ class Helper {
     this._client = Client();
   }
 
-  Future<List<dynamic>> checkCreds(String pictid, String Password) async {
+  void checkCreds(String pictid, String Password) async {
     final uname = [];
     String url = 'https://pict.ethdigitalcampus.com/DCWeb/authenticate.do?loginid='+pictid+'&password='+Password+'&dbConnVar=PICT&service_id=';
     print(url);
     final response = await _client.get(url);
     final document = parse(response.body);
     final username = document.getElementsByTagName('marquee');
-    print(username);
-    uname.add(username);
+    final doc2 = parse(username);
+    final tag = doc2.getElementsByTagName('b');
+    print(tag);
+    uname.add(tag);
     print(uname.runtimeType);
-    return uname;
   }
 
 

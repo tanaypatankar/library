@@ -24,15 +24,15 @@ class DatabaseService{
 
 
   Future updateUserList(String pictid) async {
-    if(userCollection.document(pictid).get() == null) {
-      return await userCollection.document(pictid).setData({
-        'uid' : uid,
+//    if(userCollection.document(pictid).get() == null)
+    if(true){
+      return await userCollection.document(uid).setData({
+        'pictid' : pictid,
       });
     }
     else {
       return null;
     }
-
   }
 
 

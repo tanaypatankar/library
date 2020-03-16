@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:http/http.dart';
+import 'package:html/parser.dart';
 import 'package:flutter_app/screens/authenticate/helper.dart';
 
 class PictLogin extends StatefulWidget {
@@ -7,47 +9,9 @@ class PictLogin extends StatefulWidget {
 }
 
 class _PictLoginState extends State<PictLogin> {
-  Helper _helper = Helper();
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body:
-      FutureBuilder(
-        future: _helper.checkCreds('yourpictid', 'your password'),
-        builder: (context, snapshot) {
-          switch (snapshot.connectionState) {
-            case ConnectionState.none:
-              Text(
-                "Other one Selected", style: TextStyle(color: Colors.white),);
-              // TODO: Handle this case.
-              break;
-            case ConnectionState.waiting:
-              Text(
-                "Other one Selected", style: TextStyle(color: Colors.white),);
-              // TODO: Handle this case.
-              break;
-            case ConnectionState.active:
-              Text(
-                "Other one Selected", style: TextStyle(color: Colors.white),);
-              // TODO: Handle this case.
-              break;
-            case ConnectionState.done:
-              Text(
-                "Other one Selected", style: TextStyle(color: Colors.white),);
-              // TODO: Handle this case.
-              break;
-          }
-          return ListView.builder(
-            itemCount: 1,
-            itemBuilder: (context, index) {
-              return ListTile(
-                leading: Icon(Icons.person),
-                title: Text(snapshot.data[index]),
-              );
-            },
-          );
-        }
-      ),
-    );
+    return Container();
   }
 }
+

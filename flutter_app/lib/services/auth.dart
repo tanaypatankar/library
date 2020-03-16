@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_app/models/users.dart';
 import 'package:flutter_app/services/database.dart';
+import 'package:http/http.dart';
 
 class AuthService {
 
@@ -53,22 +54,31 @@ class AuthService {
     try {
       AuthResult result = await _auth.createUserWithEmailAndPassword(email: email, password: password);
       FirebaseUser user= result.user;
-      var existingPictid = await DatabaseService(uid : user.uid).updateUserList(pictid);
-//      print("existingPictid" + existingPictid);
-      if(existingPictid != null) {
+      var existingPictid = await checkCreds(pictid, password);
+      if(existingPictid == true) {
         //Create a new document for user with uid
+        await DatabaseService(uid : user.uid).updateUserList(pictid);
         await DatabaseService(uid : user.uid).updateUserData('0', 'author', 0);
         return _userFromFirebaseUser(user);
       }
       else {
         user.delete();
         print("object");
-        return _userFromFirebaseUser(null);
+        return null;
       }
     }catch(e) {
       print(e.toString());
       return null;
     }
+  }
+
+  Future<bool> checkCreds(String pictid, String Password) async {
+    String url = 'https://pict.ethdigitalcampus.com/DCWeb/authenticate.do?loginid='+pictid+'&password='+Password+'&dbConnVar=PICT&service_id=';
+    Response response = await get(url);
+    if(response.body.length == 6671)
+      return false;
+    else
+      return true;
   }
 
 
