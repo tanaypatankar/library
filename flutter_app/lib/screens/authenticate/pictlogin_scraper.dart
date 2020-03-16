@@ -13,7 +13,7 @@ class _PictLoginState extends State<PictLogin> {
     return Scaffold(
       body:
       FutureBuilder(
-        future: _helper.checkCreds('I2K18102560', 'Himym123qwe@tanay'),
+        future: _helper.checkCreds('yourpictid', 'your password'),
         builder: (context, snapshot) {
           switch (snapshot.connectionState) {
             case ConnectionState.none:
