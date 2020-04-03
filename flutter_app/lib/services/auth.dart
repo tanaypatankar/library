@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_app/models/users.dart';
 import 'package:flutter_app/services/database.dart';
 import 'package:http/http.dart';
+import 'package:flutter_app/services/firebasemessaging.dart';
 
 class AuthService {
 
@@ -42,6 +43,8 @@ class AuthService {
     try {
       AuthResult result = await _auth.signInWithEmailAndPassword(email: email, password: password);
       FirebaseUser user= result.user;
+//      FirebaseMessagingNotif();
+      await DatabaseService(uid : user.uid).addDeviceToken();
       return _userFromFirebaseUser(user);
     }catch(e) {
       print(e.toString());
@@ -83,8 +86,10 @@ class AuthService {
 
 
   //sign out
-  Future signout() async{
+  Future signout(String uid) async{
     try {
+      print(_auth.currentUser());
+      await DatabaseService(uid : uid).removeDeviceToken();
       return await _auth.signOut();
     } catch(e) {
       print(e.toString());

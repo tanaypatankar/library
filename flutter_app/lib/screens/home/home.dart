@@ -1,12 +1,14 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/models/book.dart';
+import 'package:flutter_app/models/users.dart';
 import 'package:flutter_app/services/auth.dart';
 import 'package:flutter_app/services/database.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_app/models/book.dart';
 import 'package:flutter_app/screens/home/book_list.dart';
 import 'package:flutter_app/screens/authenticate/pictlogin_scraper.dart';
+import 'package:flutter_app/services/firebasemessaging.dart';
 
 class Home extends StatelessWidget {
   final AuthService _auth = AuthService();
@@ -32,7 +34,8 @@ class Home extends StatelessWidget {
                 icon: Icon(Icons.person, color: Colors.white,),
                 label: Text('Logout', style: TextStyle(color: Colors.white)),
                 onPressed: () async {
-                  await _auth.signout();
+                  final user= Provider.of<User>(context, listen: false);
+                  await _auth.signout(user.uid);
                 } ,
               )
             ],
@@ -41,10 +44,10 @@ class Home extends StatelessWidget {
             children: <Widget>[
               BookList(),
               PictLogin(),
+//              FirebaseMessagingNotif(),
               //Text("Other one Selected", style: TextStyle(color: Colors.white),),
             ],
-          )
-
+          ),
         ),
       )
     );
